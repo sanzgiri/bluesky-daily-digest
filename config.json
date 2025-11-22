@@ -1,0 +1,32 @@
+{
+  "accounts": [
+    "simonwillison.net",
+    "hamel.bsky.social",
+    "natolambert.bsky.social",
+    "chiphuyen.bsky.social",
+    "@eugenyan.com"
+  ],
+  "emailRecipients": [
+    "sanzgiri@gmail.com"
+  ],
+  "dailyCostBudget": 0.50,
+  "filterCriteria": {
+    "minLikes": 5,
+    "minReplies": 2,
+    "minReposts": 1,
+    "sortBy": "engagement"
+  },
+  "searchKeywords": [
+    "AI",
+    "machine learning",
+    "technology"
+  ],
+  "timezone": "America/Los_Angeles",
+  "maxPostsPerAccount": 10,
+  "summaryStyle": "concise",
+  "localSaving": {
+    "enabled": true,
+    "outputDirectory": "digests",
+    "includeMetadata": true
+  }
+}
