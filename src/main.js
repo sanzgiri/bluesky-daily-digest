@@ -50,7 +50,7 @@ async function main() {
     process.env.BLUESKY_HANDLE,
     process.env.BLUESKY_PASSWORD
   );
-  
+
   const summarizer = new Summarizer(process.env.OPENAI_API_KEY);
   const emailSender = new EmailSender(
     process.env.SENDGRID_API_KEY,
@@ -104,21 +104,27 @@ async function main() {
     // Check budget
     const costReport = summarizer.getCostReport();
     console.log(`\n💰 Total cost: $${costReport.totalCost.toFixed(4)}`);
-    
+
     if (!summarizer.checkBudget(config.dailyCostBudget)) {
       console.error('⚠️  Daily cost budget exceeded!');
       // Continue anyway, but log warning
     }
 
-    // Send email
-    const subject = `🦋 Your Bluesky Digest - ${new Date().toLocaleDateString()}`;
-    await emailSender.send(
-      config.emailRecipients,
-      subject,
-      summary,
-      summary, // Plain text version
-      costReport
-    );
+    // Send email (optional - won't fail the workflow if it errors)
+    try {
+      const subject = `🦋 Your Bluesky Digest - ${new Date().toLocaleDateString()}`;
+      await emailSender.send(
+        config.emailRecipients,
+        subject,
+        summary,
+        summary, // Plain text version
+        costReport
+      );
+      console.log('\n✓ Email sent successfully');
+    } catch (emailError) {
+      console.error('\n⚠️  Email sending failed:', emailError.message);
+      console.log('Continuing with digest save...');
+    }
 
     // Save digest locally
     await digestSaver.saveDigest(summary, metadata, costReport, filteredPosts.length);
