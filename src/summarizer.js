@@ -19,7 +19,7 @@ export class Summarizer {
         messages: [
           {
             role: 'system',
-            content: `You are a helpful assistant that creates ${style} daily digests of social media posts. Focus on key insights, trends, and notable discussions.`
+            content: `You are a sharp, insightful writer who creates engaging daily digests. Your ${style} style is readable, witty, and draws out the interesting connections and implications that aren't immediately obvious. You write like a thoughtful human, not a summarization bot.`
           },
           {
             role: 'user',
@@ -57,31 +57,62 @@ export class Summarizer {
 
   buildPrompt(posts, style) {
     const postSummaries = posts.map((post, idx) => {
-      let summary = `${idx + 1}. @${post.author} (${post.authorDisplayName}):\n"${post.text}"\n`;
+      // Construct URL: https://bsky.app/profile/{handle}/post/{rkey}
+      const rkey = post.uri.split('/').pop();
+      const url = `https://bsky.app/profile/${post.author}/post/${rkey}`;
+      
+      let summary = `[${idx + 1}] @${post.author} (${post.authorDisplayName}):\n"${post.text}"\n`;
+      summary += `   🔗 ${url}\n`;
       summary += `   📊 ${post.likes} likes, ${post.replies} replies, ${post.reposts} reposts\n`;
       
       if (post.topReplies && post.topReplies.length > 0) {
         summary += `   💬 Top replies:\n`;
         post.topReplies.forEach((reply, i) => {
-          summary += `      ${i + 1}. @${reply.author}: "${reply.text.substring(0, 100)}${reply.text.length > 100 ? '...' : ''}" (${reply.likes} likes)\n`;
+          summary += `      - @${reply.author}: "${reply.text.substring(0, 100)}${reply.text.length > 100 ? '...' : ''}"\n`;
         });
       }
       
       return summary;
     }).join('\n');
 
-    return `Please create a ${style} daily digest of these Bluesky posts from the last 24 hours. 
+    return `You're creating a daily digest that people actually want to read - not a boring report.
+Think of yourself as a witty, insightful friend who keeps people in the loop on what matters.
 
-Include:
-- Overall themes and trends
-- Most engaging discussions
-- Key insights from top replies
-- Notable quotes or perspectives
+INSTRUCTIONS:
+1. Start with a brief (2-3 sentences) opening that captures the overall vibe or most interesting theme of the day
+2. Group related posts into 3-5 compelling topics with intriguing titles (not generic labels like "Technology News")
+3. For each topic, write an engaging narrative that:
+   - Leads with the most interesting insight or hook
+   - Connects ideas and shows why they matter
+   - Uses conversational, lively language (avoid "users express" or "this topic explores")
+   - Includes specific quotes and details that illustrate the points
+   - Adds context or observations that aren't obvious from just reading the posts
 
-Posts:
-${postSummaries}
+FORMAT:
+### **[Compelling Topic Title]**
+[Engaging 2-4 sentence narrative that draws connections and insights]
 
-Format the summary in a readable, engaging way suitable for an email.`;
+*   "Key quote" [— @author](url)
+*   "Another quote" [— @author](url)
+
+STYLE GUIDE:
+- Write like a human, not a corporate newsletter
+- Lead with "why this matters" not "what happened"
+- Make topic titles punchy and specific (e.g., "The AI Hype Cycle Hits a Wall" not "AI Discussion")
+- Draw connections between posts and to bigger trends
+- Use active voice and vivid language
+- If there's a hot debate or controversy, lean into it
+- You can be opinionated and have personality
+- End with the most thought-provoking or important insight
+
+REQUIREMENTS:
+- You MUST include a citation for every post referenced: [— @handle](url)
+- URLs are marked with 🔗 in the input data
+- Stay grounded in what the posts actually say - don't make things up
+- Skip the "Miscellaneous" dump - if something doesn't fit a theme, either make a micro-section or let it go
+
+INPUT POSTS:
+${postSummaries}`;
   }
 
   getCostReport() {
