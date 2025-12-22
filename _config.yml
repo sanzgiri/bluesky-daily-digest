@@ -1,0 +1,5 @@
+title: Bluesky Daily Digest
+description: AI-powered daily summaries of Bluesky posts
+theme: minima
+baseurl: "/bluesky-daily-digest"
+url: "https://sanzgiri.github.io"
