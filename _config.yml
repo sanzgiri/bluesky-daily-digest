@@ -3,3 +3,23 @@ description: AI-powered daily summaries of Bluesky posts
 theme: minima
 baseurl: "/bluesky-daily-digest"
 url: "https://sanzgiri.github.io"
+
+exclude:
+  - README.md
+  - CHECKLIST.md
+  - CLAUDE.md
+  - LOCAL_TESTING.md
+  - QUICKSTART.md
+  - LICENSE
+  - package.json
+  - package-lock.json
+  - node_modules
+  - src
+  - dashboard
+  - digests
+  - config.json
+  - cost-report.json
+  - last-run.log
+  - setup.sh
+  - test.sh
+  - "*.example"

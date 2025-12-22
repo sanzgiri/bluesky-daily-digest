@@ -1,10 +1,9 @@
 ---
 layout: post
-title: "Bluesky Daily Digest — 2025-12-04"
+title: "Daily Digest — 2025-12-04"
 date: 2025-12-04
 ---
 
-# 🦋 Bluesky Daily Digest
 
 **Date:** Thursday, December 4, 2025
 

@@ -50,11 +50,12 @@ jobs:
               {
                 echo "---"
                 echo "layout: post"
-                echo "title: \"Bluesky Daily Digest — ${date}\""
+                echo "title: \"Daily Digest — ${date}\""
                 echo "date: ${date}"
                 echo "---"
                 echo ""
-                cat "$latest"
+                # Remove the duplicate H1 heading from content
+                sed '/^# 🦋 Bluesky Daily Digest$/d' "$latest"
               } > "$target"
               echo "Created Jekyll post: $target"
             fi
