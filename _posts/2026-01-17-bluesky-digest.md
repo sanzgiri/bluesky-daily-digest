@@ -1,0 +1,58 @@
+---
+layout: post
+title: "Daily Digest — 2026-01-17"
+date: 2026-01-17
+---
+
+
+**Saturday, January 17, 2026**
+
+---
+
+### **Whistleblowers and Cybersecurity: A Disturbing Revelation**
+Today’s cyber landscape just got a jolt of adrenaline, courtesy of a federal whistleblower who exposed a chilling connection between the Dogecoin cryptocurrency and potential Russian cyber intrusions. The testimony reveals that, after some significant data breaches, hackers attempted logins using newly minted Dogecoin passwords. This raises urgent questions about the security of digital currencies and their implications for global cybersecurity. Notably, the whistleblower, Daniel Berulis, cautions that the media hasn’t fully unpacked the gravity of these revelations, leaving room for speculation and concern. 
+
+*   "He's saying DOGE came in, data went out, and Russians started attempting logins with new valid DOGE passwords." [— @mattjay.com](https://bsky.app/profile/mattjay.com/post/3ln2dgoksce2e)
+*   "My story breaking the news was 7k words!" [— @jennamclaughlin.bsky.social](https://bsky.app/profile/jennamclaughlin.bsky.social/post/3ln2dgoksce2e)
+
+### **Wikipedia Turns 25: The Unenshittified Sanctuary**
+While the internet often feels like a chaotic dumpster fire, Wikipedia turns 25 today as a beacon of reliability and communal effort. Celebrated as the "last unenshittified major website," it remains a testament to the power of collective knowledge, fueled by a legion of unpaid editors who correct each other with both fervor and occasional hilarity. In an age where misinformation thrives, this milestone reminds us that a community-driven model can still produce something remarkably robust. 
+
+*   "Good thing Wikipedia works in practice, because it sure doesn't work in theory." [— @depthsofwikipedia.bsky.social](https://bsky.app/profile/depthsofwikipedia.bsky.social/post/3mchpvpyf3c2f)
+*   "Operating imperfectly in an imperfect world, Wikipedia still deserves support." [— @geraldlombardi.bsky.social](https://bsky.app/profile/depthsofwikipedia.bsky.social/post/3mchpvpyf3c2f)
+
+### **Python’s Bold Move: Values Over Revenue**
+In a refreshing turn of events, the Python Software Foundation has chosen to prioritize community and diversity over a tempting $1.5 million grant. This decision not only highlights the importance of shared values in tech but also sets a precedent for other organizations that often chase funding at the cost of their core principles. It’s a stark reminder that integrity can outweigh financial incentives, a notion that resonates deeply in today’s monetized digital landscape.
+
+*   "We made the decision to put our community and our shared diversity, equity, and inclusion values ahead of seeking $1.5M in new revenue." [— @python.org](https://bsky.app/profile/python.org/post/3m46nxmereb2b)
+*   "Unbelievably based we love to see it." [— @katie.bzky.team](https://bsky.app/profile/python.org/post/3m46nxmereb2b)
+
+### **Democracy in Crisis: The Wealthy and the Weird**
+John Rogers takes a sharp aim at the peculiarities of wealth and power in the West, positing that the very essence of democracy is threatened by the erratic behavior of a few extraordinarily rich individuals. This commentary strikes a chord, suggesting that when wealth is concentrated, so too are the bizarre ideologies of its bearers. It’s a call to arms for a collective reckoning with the social hygiene that democracy needs to stay healthy.
+
+*   "The fact the richest men in the West are a mix of grotty twelve year olds and deranged apocalypse fanatics is a problem." [— @johnrogers.bsky.social](https://bsky.app/profile/johnrogers.bsky.social/post/3m3nebgaub223)
+*   "Extremes of wealth encourage madness." [— @theodoric.bsky.social](https://bsky.app/profile/johnrogers.bsky.social/post/3m3nebgaub223)
+
+### **Visual Studio Code: The Code is the Enemy**
+In a humorous yet poignant critique, William B. Fuckley points out that the name ‘VS Code’ suggests an adversarial relationship with coding itself. This tongue-in-cheek observation resonates with many developers who battle their own creations daily. It’s a reminder that in the world of programming, our tools can sometimes feel more like foes than friends, a sentiment that unites coders across the globe in their shared strife.
+
+*   "It’s called ‘vs code’ because the code is an enemy you are fighting." [— @opinionhaver.bsky.social](https://bsky.app/profile/opinionhaver.bsky.social/post/3mcgeoncy4s2k)
+*   "Even better, it's an enemy you created." [— @peacedog.bsky.social](https://bsky.app/profile/opinionhaver.bsky.social/post/3mcgeoncy4s2k)
+
+As we navigate the complexities of technology, community, and democracy, today’s themes remind us that our collective choices can shape a more informed, equitable, and coherent world. Stay curious!
+
+---
+
+## 📊 Summary Statistics
+
+- **Posts Analyzed:** 37
+- **AI Model:** gpt-4o-mini
+- **Tokens Used:** 2,444 input, 1,093 output
+- **Generation Cost:** $0.0010
+- **Total Session Cost:** $0.0010
+- **Budget Remaining:** $0.4990
+
+
+---
+
+*Generated by Bluesky Daily Digest v2 on 2026-01-17T08:26:40.393Z*
