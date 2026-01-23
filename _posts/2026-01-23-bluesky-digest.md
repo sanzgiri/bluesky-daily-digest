@@ -1,0 +1,56 @@
+---
+layout: post
+title: "Daily Digest — 2026-01-23"
+date: 2026-01-23
+---
+
+
+**Friday, January 23, 2026**
+
+---
+
+### **The Power of Principles: Python's Bold Choice**
+In a striking move that prioritizes values over profit, the Python Software Foundation (PSF) has opted to forgo a $1.5 million grant from the National Science Foundation to uphold its commitment to diversity, equity, and inclusion. This decision isn't just about the money; it signals a broader, necessary shift in tech culture where community values can take precedence over financial gain. As the PSF states, “We put our community and our shared diversity, equity, and inclusion values ahead of seeking $1.5M in new revenue” [— @python.org](https://bsky.app/profile/python.org/post/3m46nxmereb2b). This could inspire other organizations to re-evaluate their priorities, potentially reshaping how funding and innovation are approached in tech.
+
+*   "The PSF applied for a $1.5M grant from the US National Science Foundation..." [— @python.org](https://bsky.app/profile/python.org/post/3m46nxmereb2b)
+*   "unbelievably based we love to see it" [— @katie.bzky.team](https://bsky.app/profile/python.org/post/3m46nxmereb2b)
+
+### **Wealth, Madness, and Democracy: A Cautionary Tale**
+John Rogers presents a stark commentary on the disconnect between wealth and rational governance, labeling the current state of affluence among the elite as a “mix of grotty twelve year olds and deranged apocalypse fanatics.” His words carry a heavy weight: the rich, unchecked, can warp societal norms and democratic processes into something unrecognizable. “The whole point of democracy is so one person's derangement does not become everybody's problem” [— @johnrogers.bsky.social](https://bsky.app/profile/johnrogers.bsky.social/post/3m3nebgaub223). This raises an urgent question: how do we prevent the whims of a few from dictating the fate of the many? It’s a call to action for all of us to engage in democracy actively and critically.
+
+*   "Extremes of wealth encourage madness." [— @theodoric.bsky.social](https://bsky.app/profile/johnrogers.bsky.social/post/3m3nebgaub223)
+*   "it’s time to take their money." [— @maaaatttt.bsky.social](https://bsky.app/profile/johnrogers.bsky.social/post/3m3nebgaub223)
+
+### **Miyazaki and the Art of Curation**
+In an unexpected twist, Tristan Gray has rolled out a major update to his GenAI mute/block list, inspired by the beloved Hayao Miyazaki. This playful homage isn’t just about aesthetics; it’s a reminder of the importance of curating our digital spaces. Gray’s commitment to refining the online experience for everyone resonates in a world often overwhelmed by digital noise. “Let me know of any missed accounts and any false positives I might have swept up” [— @eidyngray.scot](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h). This is about more than just blocking accounts; it’s about creating a community where the content we consume aligns with our values and interests.
+
+*   "Thank you for creating this list!" [— @mikecook82.bsky.social](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h)
+*   "Big fan of how the first account is Adobe 🤣" [— @danihelmanart.bsky.social](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h)
+
+### **Maps, Projections, and the Fight for Truth**
+Joe Hanson has ignited a conversation about the Mercator projection, calling for its boycott in news stories about Greenland. Why? The Mercator projection distorts realities, misleading audiences about geographical truths. “I am calling for a complete and total boycott of the Mercator projection in all news stories about Greenland” [— @drjoehanson.bsky.social](https://bsky.app/profile/drjoehanson.bsky.social/post/3mcd3kanaxs2u). This is more than a cartographic debate; it’s about how narratives are shaped and the responsibility we carry when presenting information. As we navigate a world filled with misinformation, pushing for accurate representation is crucial.
+
+*   "Much of the 'landmass' is actually below sea level..." [— @bdinunno.bsky.social](https://bsky.app/profile/drjoehanson.bsky.social/post/3mcd3kanaxs2u)
+
+### **Reflections on A.I. and the Quest for AGI**
+Amidst the hype surrounding artificial intelligence, Gary Marcus asserts that large language models (LLMs) are not the key to achieving Artificial General Intelligence (AGI). His skepticism resonates with a growing cohort in the tech community who are beginning to recognize the limitations of current models. “LLMs are not the way to AGI - and the big guns are finally starting to acknowledge it” [— @garymarcus.bsky.social](https://bsky.app/profile/garymarcus.bsky.social/post/3mcyy47tswk2f). This acknowledgment is a crucial pivot point—if we’re to advance the field, we need to be honest about our tools and their shortcomings. It’s a reminder that innovation thrives on critical examination rather than blind enthusiasm.
+
+*   "the importance and relevance of this statement is a function of how AGI-pilled one is." [— @jackhardinges.bsky.social](https://bsky.app/profile/garymarcus.bsky.social/post/3mcyy47tswk2f)
+
+Today’s digest reveals a tapestry of ideas and movements that reflect a yearning for authenticity, integrity, and clarity in our increasingly complex world. Whether it’s tech organizations standing firm on values, the need for accurate representations in media, or the reevaluation of the tools we use, the common thread is a call for a more mindful approach to our digital and social landscapes. What will you do with this insight?
+
+---
+
+## 📊 Summary Statistics
+
+- **Posts Analyzed:** 35
+- **AI Model:** gpt-4o-mini
+- **Tokens Used:** 2,241 input, 1,301 output
+- **Generation Cost:** $0.0011
+- **Total Session Cost:** $0.0011
+- **Budget Remaining:** $0.4989
+
+
+---
+
+*Generated by Bluesky Daily Digest v2 on 2026-01-23T08:30:49.418Z*
