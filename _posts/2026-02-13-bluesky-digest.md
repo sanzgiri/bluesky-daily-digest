@@ -1,0 +1,61 @@
+---
+layout: post
+title: "Daily Digest — 2026-02-13"
+date: 2026-02-13
+---
+
+
+**Friday, February 13, 2026**
+
+---
+
+### **Darwin, Diversity, and Digital Drama: The Day in Review**
+Today is a delightful mix of celebration, introspection, and a hint of chaos. From wishing a cheeky happy birthday to Darwin, the father of evolution, to the Python Software Foundation making bold choices for inclusivity, there's a lot to chew on. Meanwhile, the digital discourse dances around identity, AI ethics, and the rollercoaster of modern media. Buckle up!
+
+### **The Legacy of a Hater: Celebrating Darwin**
+Happy birthday to Charles Darwin, the man who turned our understanding of life on its head—and continues to stir the pot even today. His birthday sparked a flurry of witty comments, with one user humorously reminding us not to forget about barnacles, while another questioned the modern relevance of his work. It’s a testament to Darwin's enduring impact that even in a world of memes and social media, his ideas remain a point of contention. “This is how you know Darwin was a real scientist,” quipped one user, highlighting how scientific debate is as alive as ever. 
+
+*   "Don’t forget the barnacles!" [— @smidg.in](https://bsky.app/profile/lettersofnote.com/post/3meog5hesf22i)
+*   "This is how you know Darwin was a real scientist." [— @jcdentyne.bsky.social](https://bsky.app/profile/lettersofnote.com/post/3meog5hesf22i)
+
+### **Python's Bold Move: Prioritizing Values Over Revenue**
+In a world where profit often trumps principle, the Python Software Foundation is drawing a line in the sand. They chose to prioritize community values and inclusivity over a potential $1.5 million grant, a decision that’s both audacious and refreshing. This move resonates with a broader movement in tech, where companies are increasingly held accountable for their social impact. “Unbelievably based we love to see it,” exclaimed one supporter, underlining a growing desire for tech to serve humanity, not just shareholders. 
+
+*   "The PSF has made the decision to put our community and our shared diversity, equity, and inclusion values ahead of seeking $1.5M in new revenue." [— @python.org](https://bsky.app/profile/python.org/post/3m46nxmereb2b)
+*   "Unbelievably based we love to see it." [— @katie.bzky.team](https://bsky.app/profile/python.org/post/3m46nxmereb2b)
+
+### **Mute the Noise: A Digital Cleanup**
+In a refreshing twist, Tristan Gray has unveiled a major update to the GenAI mute/block list, allowing users to curate their feeds more effectively. In a digital landscape often riddled with noise and distractions, this effort is a reminder of the power of community-driven solutions. One user humorously noted that Adobe was the first account on the list, perhaps hinting at the sometimes overwhelming presence of corporate content. It’s a small step toward reclaiming our digital spaces, but a significant one nonetheless.
+
+*   "Thank you for creating this list!" [— @mikecook82.bsky.social](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h)
+*   "Big fan of how the first account is Adobe 🤣" [— @danihelmanart.bsky.social](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h)
+
+### **Navigating Controversy: Gender Identity and Medical Ethics**
+The online conversation around youth gender medicine is heating up, with voices like Michael Hobbes passionately defending the right for kids to explore their identities. Hobbes argues that the push against even basic expressions, like pronouns and hairstyles, reveals a deeper societal issue—bigotry disguised as concern. “Anyone who had genuine concerns about youth gender medicine would staunchly and wholeheartedly support social transition,” he asserts. This debate underscores the tension between progress and prejudice in today’s society.
+
+*   "Anyone who had genuine concerns about youth gender medicine would staunchly and wholeheartedly support social transition." [— @michaelhobbes.bsky.social](https://bsky.app/profile/michaelhobbes.bsky.social/post/3meofxofpas2k)
+*   "I never got the part where they get upset about pronouns and haircuts." [— @benslersbutterfly.bsky.social](https://bsky.app/profile/michaelhobbes.bsky.social/post/3meofxofpas2k)
+
+### **AI's Political Ties: A Surprising SuperPAC Donor**
+In a twist that could only happen in our bizarre political landscape, the president of OpenAI is the largest donor to a Trump superPAC this cycle. This revelation has sparked a flurry of commentary online, with users expressing disbelief and concern over the implications of such funding. As one user pointedly remarked, “Interested to see which universities have made deals with OpenAI,” highlighting the intersections of technology, politics, and ethics that demand scrutiny. As we navigate this new terrain, understanding these connections will be crucial for both tech and democracy.
+
+*   "The largest Trump superPAC donor so far this cycle is the president of OpenAI." [— @jakemgrumbach.bsky.social](https://bsky.app/profile/jakemgrumbach.bsky.social/post/3mdbzv2nfsc2k)
+*   "ChatGPT is the equivalent of a dog scooting its asshole across the carpet threads of your brain." [— @oksytocyn.bsky.social](https://bsky.app/profile/jakemgrumbach.bsky.social/post/3mdbzv2nfsc2k)
+
+As we navigate these themes of legacy, ethics, and the chaotic beauty of modern discourse, it’s clear that every conversation is a thread in the rich tapestry of our collective narrative. Let's keep pulling at those threads.
+
+---
+
+## 📊 Summary Statistics
+
+- **Posts Analyzed:** 32
+- **AI Model:** gpt-4o-mini
+- **Tokens Used:** 2,410 input, 1,243 output
+- **Generation Cost:** $0.0011
+- **Total Session Cost:** $0.0011
+- **Budget Remaining:** $0.4989
+
+
+---
+
+*Generated by Bluesky Daily Digest v2 on 2026-02-13T08:42:05.495Z*
