@@ -1,0 +1,58 @@
+---
+layout: post
+title: "Daily Digest — 2026-02-25"
+date: 2026-02-25
+---
+
+
+**Wednesday, February 25, 2026**
+
+---
+
+### **Twitter's Identity Crisis: The Onion's Escape Plan**
+In a surprising twist, The Onion seems to have cracked the code on social media survival—by leaving Twitter altogether. Tim Onion revealed that their weekly subscribers surged after ditching the platform, suggesting that Twitter might be less a springboard and more of an anchor for brands. “Being on Twitter is somewhere between useless or detrimental,” he quipped, hinting that even the most seasoned content creators are rethinking their social strategies. With platforms like Instagram and YouTube proving more fruitful, it raises the question: is Twitter officially a digital graveyard for brands?
+
+* "It's because we're doing well here, on Instagram and on YouTube." [— @bencollins.bsky.social](https://bsky.app/profile/bencollins.bsky.social/post/3mfik36zojs2r)  
+* "Uhhh prove us even more right!" [— @bencollins.bsky.social](https://bsky.app/profile/bencollins.bsky.social/post/3mfik36zojs2r)
+
+### **The Tech Detox: Finding Clarity in the Chaos**
+Tristan Gray’s recent update to his GenAI mute/block list speaks volumes about the ongoing struggle to curate our digital experiences. In a world inundated with noise, he’s taking action, asking users to help refine the list and clear the clutter. It’s a refreshing reminder that as we navigate the chaotic waters of social media, sometimes it’s about reclaiming our peace rather than just scrolling mindlessly. As Gray puts it, “Clear your feed”—a mantra for these times when our attention feels more like an auction than a privilege.
+
+* "Let me know of any missed accounts and any false positive I might have swept up." [— @eidyngray.scot](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h)  
+* "Big fan of how the first account is Adobe 🤣" [— @mikecook82.bsky.social](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h)
+
+### **The Absurdity of Modern Existence**
+In a world where absurdity often reigns supreme, the Internethippo captures the essence of our daily disconnect. His post—about logging into a Zoom meeting after scrolling through the latest horrors—resonates with many who juggle the stark contrast between our grim digital realities and the mundane normalcy of work life. It's a testament to our resilience (or denial) as we maintain a facade of normalcy amidst chaos. “Heyyyy I’m good! How are you?”—the ultimate mask we wear, even when the world feels upside down.
+
+* "Logging on to the work zoom. 'Heyyyy I'm good! How are you?'" [— @internethippo.bsky.social](https://bsky.app/profile/internethippo.bsky.social/post/3mdysi6ppnc27)  
+* "The old 'done looking at the bad screen, time to go look at the good screen' meme" [— @incapotomus.bsky.social](https://bsky.app/profile/internethippo.bsky.social/post/3mdysi6ppnc27)
+
+### **The Geeky Wonders of CSS: Coding or Art?**
+In a delightful conundrum, Rebane has turned the world of coding on its head by building an entire x86 CPU emulator in CSS. Yes, you read that right—CSS! It’s a playful reminder that tech can be as much about creativity as it is about functionality. As the line between coding and artistry blurs, one can’t help but wonder: are we witnessing the birth of a new genre in tech? The enthusiastic reactions to this feat show just how much innovation can spark joy and questions in equal measure.
+
+* "I built an entire x86 CPU emulator in CSS (no javascript)" [— @rebane2001.bsky.social](https://bsky.app/profile/rebane2001.bsky.social/post/3mfl4e43ig22v)  
+* "I imagine the hardest part of this project was having to kill God so that you’d be unhampered by divs." [— @vale.rocks](https://bsky.app/profile/rebane2001.bsky.social/post/3mfl4e43ig22v)
+
+### **AI and Influence: The Money Behind the Machines**
+In a jaw-dropping revelation, it turns out the largest donor to a Trump superPAC is none other than the president of OpenAI. This eyebrow-raising connection adds another layer to the already labyrinthine relationship between technology and politics. As Jake Grumbach notes, this raises critical questions about the influence of tech leaders in shaping our political landscape. Are we witnessing a future where AI and politics intertwine so intimately that the lines blur beyond recognition?
+
+* "The largest Trump superPAC donor so far this cycle is the president of OpenAI." [— @jakemgrumbach.bsky.social](https://bsky.app/profile/jakemgrumbach.bsky.social/post/3mdbzv2nfsc2k)  
+* "ChatGPT is the equivalent of a dog scooting its asshole across the carpet threads of your brain." [— @lbjtexas.bsky.social](https://bsky.app/profile/jakemgrumbach.bsky.social/post/3mdbzv2nfsc2k)
+
+In a world that feels increasingly chaotic, these conversations serve as both a mirror and a map, guiding us through the absurdity, the creativity, and the undeniable influence of technology in our lives.
+
+---
+
+## 📊 Summary Statistics
+
+- **Posts Analyzed:** 34
+- **AI Model:** gpt-4o-mini
+- **Tokens Used:** 2,352 input, 1,176 output
+- **Generation Cost:** $0.0011
+- **Total Session Cost:** $0.0011
+- **Budget Remaining:** $0.4989
+
+
+---
+
+*Generated by Bluesky Daily Digest v2 on 2026-02-25T08:50:23.524Z*
