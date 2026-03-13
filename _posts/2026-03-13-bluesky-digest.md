@@ -1,0 +1,58 @@
+---
+layout: post
+title: "Daily Digest — 2026-03-13"
+date: 2026-03-13
+---
+
+
+**Friday, March 13, 2026**
+
+---
+
+### **The Invisible Hand of War: A Planless Mess in the Strait of Hormuz**
+Today’s geopolitical theater showcases a shocking lack of foresight, especially concerning the ever-volatile Strait of Hormuz. Chris Murphy’s recent observations underline a stark reality: the powers at play lack a coherent strategy to navigate the impending chaos. As he points out, the failure to anticipate Iran's maneuvers in this critical chokepoint is “unforgivable.” This situation begs the question—what happens when military operations lack a follow-up plan? The cycle of violence seems destined to repeat, suggesting that endless warfare may be the only answer as long-term peace remains elusive.
+
+*   "I can't go into more detail about how Iran gums up the Strait, but suffice it say, right now, they don't know how to get it safely back open." [— @chrismurphyct.bsky.social](https://bsky.app/profile/chrismurphyct.bsky.social/post/3mgqotmim732w)
+*   "But the question that stumped them: what happens when you stop bombing and they restart production?" [— @chrismurphyct.bsky.social](https://bsky.app/profile/chrismurphyct.bsky.social/post/3mgqotmim722w)
+
+### **AI: The Survey That Asks All the Wrong Questions**
+As companies scramble to integrate AI into their operations, one unsuspecting employee found themselves facing an oddly personal survey question about their relationship with this tech. It’s a vivid reminder of how the corporate world is often out of touch with the people it employs. The question? A bizarre scale from “I can’t live without it” to “We’re getting married.” This prompts a deeper reflection: are we really falling in love with AI, or just being coerced into a toxic relationship? We need to start asking better questions before we sign our hearts away to algorithms.
+
+*   "On a scale from ‘I can’t live without it’ to ‘We’re getting married,’ how much do you..." [— @jeremiahcoogan.bsky.social](https://bsky.app/profile/jeremiahcoogan.bsky.social/post/3mgobkkwg3c2q)
+*   "If AI enthusiasts didn’t talk so much like..." [— @kristalerista](https://bsky.app/profile/jeremiahcoogan.bsky.social/post/3mgobkkwg3c2q)
+
+### **Miyazaki Magic: A GenAI Mute List Update**
+In a world where digital noise can drown out even the most beloved creators, Tristan Gray's update to the GenAI mute/block list is a beacon of hope. Paying homage to the legendary Hayao Miyazaki, Gray’s initiative is more than just a curation tool; it’s a DIY antidote to algorithmic chaos. By empowering users to shape their feeds, he’s tapping into a grassroots movement for control in an era that often feels overwhelmingly dictated by external forces. This shift highlights a growing desire for agency in our online experiences.
+
+*   "I’ve implemented the biggest update to the GenAI mute/block list in a few months." [— @eidyngray.scot](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h)
+*   "Thank you for creating this list!" [— @mikecook82.bsky.social](https://bsky.app/profile/eidyngray.scot/post/3lm7mwf2mqs2h)
+
+### **Coffins and Commerce: The Glass Half Full?**
+Kim's whimsical venture into the glass coffin business, cheekily dubbed “remains to be seen,” might be a metaphor for the unpredictable nature of entrepreneurship. In a world filled with innovative yet bizarre ideas, this one certainly takes the cake—or should I say the casket? The reception to her business model is a reminder that not every niche market finds its audience, and sometimes, being ahead of your time can also mean being ahead of your customers' comfort levels. It’s a poignant reflection on the intersection of life, death, and commerce.
+
+*   "My glass coffin company 'remains to be seen' is not doing as well as I thought it would." [— @kimmymonte.bsky.social](https://bsky.app/profile/kimmymonte.bsky.social/post/3lcegwwme7c2r)
+*   "Have you tried advertising to anyone other than dead people?" [— @benadambenadam](https://bsky.app/profile/kimmymonte.bsky.social/post/3lcegwwme7c2r)
+
+### **Visualizing the Future: Data That Speaks Volumes**
+In a world overflowing with data, the ability to visualize information effectively has become a superpower. A recent post highlights a particularly striking visualization from the Financial Times, prompting conversations about how we interpret and communicate complex statistics. The right visual can turn dry data into compelling narratives that resonate with audiences. This serves as a call to action for analysts and communicators alike: in a data-driven landscape, clarity isn’t just a nice-to-have; it’s essential.
+
+*   "I think there is not enough appreciation to how good this FT visualization is." [— @econreporter.bsky.social](https://bsky.app/profile/econreporter.bsky.social/post/3mg5uid6fz22g)
+*   "If I were China I'd be pretty upset for a moment, then I would remember..." [— @sandykazmir](https://bsky.app/profile/econreporter.bsky.social/post/3mg5uid6fz22g)
+
+In a day filled with everything from missed military strategies to innovative niche businesses, we’re reminded that the world is a complex tapestry of interconnected narratives. Whether it's shaping our digital experiences or the ways we visualize information, each thread matters in the broader story we tell.
+
+---
+
+## 📊 Summary Statistics
+
+- **Posts Analyzed:** 32
+- **AI Model:** gpt-4o-mini
+- **Tokens Used:** 2,481 input, 1,231 output
+- **Generation Cost:** $0.0011
+- **Total Session Cost:** $0.0011
+- **Budget Remaining:** $0.4989
+
+
+---
+
+*Generated by Bluesky Daily Digest v2 on 2026-03-13T08:40:05.495Z*
