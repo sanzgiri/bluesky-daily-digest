@@ -11,8 +11,9 @@ baseurl: "/bluesky-daily-digest"
 # Build
 markdown: kramdown
 highlighter: rouge
+future: true       # publish posts dated in the future (workflow runs in UTC)
+timezone: Etc/UTC  # match the workflow's clock so dates line up
 permalink: /:year/:month/:day/
-timezone: America/Los_Angeles
 
 # Pagination
 paginate: 14

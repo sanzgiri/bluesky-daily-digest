@@ -45,7 +45,7 @@ About **$0.40/year** to run — that's all-in cloud cost for the LLM + zero infr
 
 ## Open source
 
-[Source code on GitHub](https://github.com/sanzgiri/bluesky-daily-digest-v2). MIT licensed. Steal it, fork it, run your own.
+[Source code on GitHub](https://github.com/sanzgiri/bluesky-daily-digest). MIT licensed. Steal it, fork it, run your own.
 
 ## Subscribe
 
