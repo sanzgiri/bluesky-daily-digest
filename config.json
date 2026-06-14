@@ -177,11 +177,73 @@
     "sanzgiri@gmail.com"
   ],
   "dailyCostBudget": 0.50,
+  "maxAgeHours": 24,
+  "seenWindowDays": 14,
+  "topK": 15,
+  "useFewShot": true,
+  "preferredProvider": "anthropic",
+  "sources": {
+    "bluesky": { "enabled": true },
+    "mastodon": {
+      "enabled": true,
+      "homeInstance": "https://mastodon.social",
+      "accounts": [
+        "simon@simonwillison.net",
+        "timnitGebru@dair-community.social",
+        "emilymbender@dair-community.social",
+        "jonst0kes@mastodon.social",
+        "baldur@toot.cafe",
+        "glyph@mastodon.social",
+        "thomasfuchs@hachyderm.io",
+        "hynek@mastodon.social",
+        "davatron5000@front-end.social",
+        "andypiper@macaw.social"
+      ],
+      "hashtags": ["machinelearning", "ai", "opensource"],
+      "maxPostsPerAccount": 3
+    },
+    "hackernews": {
+      "enabled": true,
+      "minPoints": 100,
+      "limit": 20,
+      "keywords": ["AI", "LLM", "machine learning"]
+    },
+    "rss": {
+      "enabled": true,
+      "maxPostsPerFeed": 2,
+      "feeds": [
+        { "name": "Simon Willison", "handle": "simonw", "url": "https://simonwillison.net/atom/everything/" },
+        { "name": "Stratechery (free)", "handle": "stratechery", "url": "https://stratechery.com/feed/" },
+        { "name": "One Useful Thing (Ethan Mollick)", "handle": "emollick", "url": "https://www.oneusefulthing.org/feed" },
+        { "name": "Latent Space", "handle": "swyx", "url": "https://www.latent.space/feed" },
+        { "name": "Interconnects (Nathan Lambert)", "handle": "natolambert", "url": "https://www.interconnects.ai/feed" }
+      ]
+    },
+    "reddit": {
+      "enabled": true,
+      "subs": [
+        "LocalLLaMA",
+        "MachineLearning",
+        "programming",
+        "dataengineering",
+        "ExperiencedDevs",
+        "devops",
+        "rust",
+        "selfhosted"
+      ],
+      "defaultMinScore": 50,
+      "defaultLimit": 8,
+      "minUpvoteRatio": 0.85,
+      "enrichComments": 8
+    }
+  },
   "filterCriteria": {
-    "minLikes": 10,
-    "minReplies": 2,
-    "minReposts": 2,
-    "sortBy": "engagement"
+    "minLikes": 5,
+    "minReplies": 1,
+    "minReposts": 1,
+    "minVelocity": 3,
+    "maxPostsPerAuthor": 2,
+    "sortBy": "hybrid"
   },
   "searchKeywords": [
     "AI",
@@ -189,7 +251,7 @@
     "technology"
   ],
   "timezone": "America/Los_Angeles",
-  "maxPostsPerAccount": 2,
+  "maxPostsPerAccount": 5,
   "summaryStyle": "concise",
   "localSaving": {
     "enabled": true,

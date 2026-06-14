@@ -99,4 +99,21 @@ export class DigestSaver {
     const digests = await this.listSavedDigests();
     return digests.slice(0, count);
   }
+
+  // Pulls the topic titles (### **...**) out of the last N digests so the
+  // summarizer can avoid recycling the same framings day after day.
+  async getRecentTopicTitles(count = 3) {
+    const recent = await this.getRecentDigests(count);
+    const titles = [];
+    for (const d of recent) {
+      try {
+        const content = await fs.readFile(d.path, 'utf-8');
+        const matches = content.matchAll(/^###\s+\*\*(.+?)\*\*\s*$/gm);
+        for (const m of matches) titles.push(m[1].trim());
+      } catch {
+        // ignore unreadable digests
+      }
+    }
+    return titles;
+  }
 }

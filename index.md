@@ -1,4 +1,4 @@
 ---
 layout: home
-title: Bluesky Daily Digest
+title: Home
 ---

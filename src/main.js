@@ -1,10 +1,16 @@
 import fs from 'fs/promises';
 import { BlueskySkyClient } from './bluesky-client.js';
+import { MastodonClient } from './mastodon-client.js';
+import { HackerNewsClient } from './hackernews-client.js';
+import { RSSClient } from './rss-client.js';
+import { RedditClient } from './reddit-client.js';
 import { Summarizer } from './summarizer.js';
 import { EmailSender } from './email-sender.js';
 import { DigestSaver } from './digest-saver.js';
+import { SeenTracker } from './seen-tracker.js';
+import { clusterPosts } from './cluster-deduper.js';
+import { selectTopK } from './post-scorer.js';
 
-// Load environment variables from .env file for local testing
 async function loadEnv() {
   try {
     const envContent = await fs.readFile('.env', 'utf-8');
@@ -15,142 +21,266 @@ async function loadEnv() {
       }
     });
     console.log('✓ Loaded .env file');
-  } catch (error) {
-    // .env file doesn't exist, assume running in GitHub Actions
+  } catch {
     console.log('ℹ️  No .env file found (using environment variables)');
   }
 }
 
-async function main() {
-  console.log('🦋 Starting Bluesky Daily Digest...\n');
+async function gatherFromAllSources(config) {
+  const sources = config.sources || {};
+  const allPosts = [];
+  const counts = {};
 
-  // Load .env if it exists (for local testing)
-  await loadEnv();
-
-  // Load configuration
-  const config = JSON.parse(await fs.readFile('config.json', 'utf-8'));
-
-  // Validate environment variables
-  const requiredEnvVars = [
-    'BLUESKY_HANDLE',
-    'BLUESKY_PASSWORD',
-    'OPENAI_API_KEY',
-    'SENDGRID_API_KEY',
-    'SENDER_EMAIL'
-  ];
-
-  for (const envVar of requiredEnvVars) {
-    if (!process.env[envVar]) {
-      throw new Error(`Missing required environment variable: ${envVar}`);
+  // -------- Bluesky --------
+  if (sources.bluesky?.enabled !== false && process.env.BLUESKY_HANDLE) {
+    console.log('\n── Bluesky ──');
+    const bluesky = new BlueskySkyClient(
+      process.env.BLUESKY_HANDLE,
+      process.env.BLUESKY_PASSWORD
+    );
+    try {
+      await bluesky.login();
+      const bskyPosts = await bluesky.getPostsFromAccounts(config.accounts || [], config);
+      if (config.searchKeywords?.length) {
+        for (const kw of config.searchKeywords) {
+          const results = await bluesky.searchPosts(kw, config);
+          bskyPosts.push(...results);
+        }
+      }
+      const tagged = bskyPosts.map(p => ({ ...p, source: 'bluesky' }));
+      counts.bluesky = tagged.length;
+      allPosts.push(...tagged);
+      // Stash the client so we can fetch replies later for Bluesky posts only.
+      gatherFromAllSources._bluesky = bluesky;
+    } catch (err) {
+      console.error(`✗ Bluesky stage failed: ${err.message}`);
+      counts.bluesky = 0;
     }
   }
 
-  // Initialize clients
-  const bluesky = new BlueskySkyClient(
-    process.env.BLUESKY_HANDLE,
-    process.env.BLUESKY_PASSWORD
-  );
+  // -------- Mastodon --------
+  if (sources.mastodon?.enabled) {
+    console.log('\n── Mastodon ──');
+    const m = new MastodonClient({ homeInstance: sources.mastodon.homeInstance });
+    const mastoConfig = {
+      maxAgeHours: config.maxAgeHours,
+      maxPostsPerAccount: sources.mastodon.maxPostsPerAccount || 3
+    };
+    const mastoPosts = await m.getPostsFromAccounts(sources.mastodon.accounts || [], mastoConfig);
+    for (const tag of sources.mastodon.hashtags || []) {
+      const tagged = await m.searchHashtag(tag, mastoConfig);
+      mastoPosts.push(...tagged);
+    }
+    counts.mastodon = mastoPosts.length;
+    allPosts.push(...mastoPosts);
+  }
 
-  const summarizer = new Summarizer(process.env.OPENAI_API_KEY);
-  const emailSender = new EmailSender(
-    process.env.SENDGRID_API_KEY,
-    process.env.SENDER_EMAIL
-  );
+  // -------- Hacker News --------
+  if (sources.hackernews?.enabled) {
+    console.log('\n── Hacker News ──');
+    const hn = new HackerNewsClient();
+    const stories = await hn.getTopStories({
+      hours: config.maxAgeHours ?? 24,
+      minPoints: sources.hackernews.minPoints ?? 100,
+      limit: sources.hackernews.limit ?? 20
+    });
+    for (const kw of sources.hackernews.keywords || []) {
+      const matches = await hn.search(kw, {
+        hours: config.maxAgeHours ?? 24,
+        minPoints: 30,
+        limit: 10
+      });
+      stories.push(...matches);
+    }
+    counts.hackernews = stories.length;
+    allPosts.push(...stories);
+  }
+
+  // -------- RSS --------
+  if (sources.rss?.enabled) {
+    console.log('\n── RSS ──');
+    const r = new RSSClient();
+    const rssConfig = {
+      maxAgeHours: config.maxAgeHours,
+      maxPostsPerFeed: sources.rss.maxPostsPerFeed || 2
+    };
+    const rssPosts = await r.getPostsFromFeeds(sources.rss.feeds || [], rssConfig);
+    counts.rss = rssPosts.length;
+    allPosts.push(...rssPosts);
+  }
+
+  // -------- Reddit --------
+  if (sources.reddit?.enabled) {
+    console.log('\n── Reddit ──');
+    const reddit = new RedditClient({
+      clientId: process.env.REDDIT_CLIENT_ID,
+      clientSecret: process.env.REDDIT_CLIENT_SECRET,
+      username: process.env.REDDIT_USERNAME,
+      password: process.env.REDDIT_PASSWORD
+    });
+    if (reddit.isConfigured()) {
+      try {
+        const redditPosts = await reddit.getPostsFromSubs(sources.reddit.subs || [], {
+          maxAgeHours: config.maxAgeHours,
+          defaultMinScore: sources.reddit.defaultMinScore ?? 50,
+          defaultLimit: sources.reddit.defaultLimit ?? 8,
+          minUpvoteRatio: sources.reddit.minUpvoteRatio ?? 0.85,
+          enrichComments: sources.reddit.enrichComments ?? 8
+        });
+        counts.reddit = redditPosts.length;
+        allPosts.push(...redditPosts);
+      } catch (err) {
+        console.error(`✗ Reddit failed: ${err.message}`);
+        counts.reddit = 0;
+      }
+    } else {
+      console.log('  (REDDIT_* env vars not set, skipping)');
+      counts.reddit = 0;
+    }
+  }
+
+  return { allPosts, counts };
+}
+
+async function main() {
+  console.log('🦋 Starting Multi-Source Daily Digest...\n');
+  await loadEnv();
+
+  const config = JSON.parse(await fs.readFile('config.json', 'utf-8'));
+
+  // We need ONE of {OPENAI, ANTHROPIC, LOCAL} for LLM; email keys are required for delivery.
+  const hasLLM = process.env.OPENAI_API_KEY || process.env.ANTHROPIC_API_KEY || process.env.LOCAL_LLM_BASE_URL;
+  if (!hasLLM) {
+    throw new Error('Missing LLM config: set LOCAL_LLM_BASE_URL (free, local) or ANTHROPIC_API_KEY or OPENAI_API_KEY');
+  }
+  for (const v of ['SENDGRID_API_KEY', 'SENDER_EMAIL']) {
+    if (!process.env[v]) throw new Error(`Missing required env var: ${v}`);
+  }
+
+  // Provider precedence: explicit config.preferredProvider > local (if available) > anthropic > openai
+  const summarizer = new Summarizer({
+    anthropicKey: process.env.ANTHROPIC_API_KEY,
+    openaiKey: process.env.OPENAI_API_KEY,
+    localBaseUrl: process.env.LOCAL_LLM_BASE_URL,        // e.g. http://localhost:11434/v1
+    localModel: process.env.LOCAL_LLM_MODEL,             // e.g. qwen3:4b
+    preferredProvider: config.preferredProvider          // optional override in config.json
+  });
+  const emailSender = new EmailSender(process.env.SENDGRID_API_KEY, process.env.SENDER_EMAIL);
   const digestSaver = new DigestSaver(config);
 
+  const seenTracker = await new SeenTracker({
+    filePath: `${config.localSaving?.outputDirectory || 'digests'}/.seen-posts.json`,
+    windowDays: config.seenWindowDays ?? 14
+  }).load();
+
   try {
-    // Authenticate with Bluesky
-    await bluesky.login();
+    // 1. Gather from all sources
+    const { allPosts, counts } = await gatherFromAllSources(config);
+    console.log('\n📥 Ingestion summary:');
+    for (const [src, n] of Object.entries(counts)) {
+      console.log(`   ${src.padEnd(12)} ${n} post(s)`);
+    }
+    console.log(`   ${'TOTAL'.padEnd(12)} ${allPosts.length} post(s)`);
 
-    // Fetch posts from configured accounts
-    console.log(`\nFetching posts from ${config.accounts.length} account(s)...`);
-    let allPosts = await bluesky.getPostsFromAccounts(config.accounts, config);
+    // 2. De-dupe by URI within run (same post might appear twice across queries)
+    const unique = Array.from(new Map(allPosts.map(p => [p.uri, p])).values());
 
-    // Search for posts with specific keywords
-    if (config.searchKeywords && config.searchKeywords.length > 0) {
-      console.log(`\nSearching for keyword-based posts...`);
-      for (const keyword of config.searchKeywords) {
-        const searchResults = await bluesky.searchPosts(keyword, config);
-        allPosts.push(...searchResults);
-      }
+    // 3. Exclude posts featured in recent digests
+    const unseen = unique.filter(p => !seenTracker.getSeenUris().has(p.uri));
+    if (unique.length !== unseen.length) {
+      console.log(`Excluded ${unique.length - unseen.length} previously-digested post(s)`);
     }
 
-    // Remove duplicates
-    const uniquePosts = Array.from(
-      new Map(allPosts.map(post => [post.uri, post])).values()
-    );
+    // 4. First-stage filter: engagement/velocity thresholds (source-agnostic)
+    const bsky = gatherFromAllSources._bluesky || new BlueskySkyClient('', '');
+    const filtered = bsky.filterPosts(unseen, config.filterCriteria);
+    console.log(`Posts after engagement filter: ${filtered.length}`);
 
-    console.log(`\nTotal unique posts found: ${uniquePosts.length}`);
-
-    // Filter posts based on engagement criteria
-    const filteredPosts = bluesky.filterPosts(uniquePosts, config.filterCriteria);
-    console.log(`Posts after filtering: ${filteredPosts.length}`);
-
-    if (filteredPosts.length === 0) {
-      console.log('⚠️  No posts met the filter criteria. Skipping digest.');
+    if (filtered.length === 0) {
+      console.log('⚠️  No posts met filter criteria. Skipping digest.');
       return;
     }
 
-    // Get top replies for most engaging posts
-    console.log(`\nFetching replies for top posts...`);
-    const postsWithReplies = await bluesky.getTopReplies(filteredPosts.slice(0, 20));
+    // 5. Cluster cross-source duplicates (one story shared on HN+RSS+Bluesky → one cluster)
+    const clustered = clusterPosts(filtered);
+    const clusterReduction = filtered.length - clustered.length;
+    if (clusterReduction > 0) {
+      console.log(`Clustered ${clusterReduction} duplicate(s) across sources → ${clustered.length} distinct stories`);
+    }
 
-    // Generate summary with OpenAI
+    // 6. Fetch Bluesky replies (only platform exposing them) — BEFORE final selection,
+    //    so the second-stage scorer can reward posts that have real conversation.
+    let postsWithContext = clustered;
+    if (gatherFromAllSources._bluesky) {
+      const bskyCandidates = clustered.filter(p => p.source === 'bluesky').slice(0, 30);
+      if (bskyCandidates.length > 0) {
+        const withReplies = await gatherFromAllSources._bluesky.getTopReplies(bskyCandidates, 3, 30);
+        const replyMap = new Map(withReplies.map(p => [p.uri, p]));
+        postsWithContext = clustered.map(p => replyMap.get(p.uri) || p);
+      }
+    }
+
+    // 7. Second-stage selection: multi-axis scoring + diversity-aware top-K
+    const recentTopics = await digestSaver.getRecentTopicTitles(3);
+    const topK = config.topK ?? 15;
+    const postsForSummary = selectTopK(postsWithContext, topK, { recentTopicTitles: recentTopics });
+    console.log(`Selected top ${postsForSummary.length} by multi-axis score (from ${postsWithContext.length} candidates)`);
+    console.log('Top 5 selections:');
+    postsForSummary.slice(0, 5).forEach((p, i) => {
+      const cross = p.relatedSources?.length ? ` 🌐×${p.relatedSources.length}` : '';
+      console.log(`  ${i+1}. [${p.source}${cross}] @${p.author} (score=${p._digestScore?.toFixed(1)}) — ${p.text.slice(0, 60).replace(/\n/g,' ')}`);
+    });
+
+    // 8. Generate summary (multi-source-aware prompt + few-shot + fact-check)
     const { summary, metadata } = await summarizer.generateSummary(
-      postsWithReplies.length > 0 ? postsWithReplies : filteredPosts.slice(0, 20),
-      config
+      postsForSummary,
+      {
+        ...config,
+        _recentTopicTitles: recentTopics,
+        _sourceCounts: counts
+      }
     );
 
-    // Check budget
     const costReport = summarizer.getCostReport();
     console.log(`\n💰 Total cost: $${costReport.totalCost.toFixed(4)}`);
-
     if (!summarizer.checkBudget(config.dailyCostBudget)) {
       console.error('⚠️  Daily cost budget exceeded!');
-      // Continue anyway, but log warning
     }
 
-    // Send email (optional - won't fail the workflow if it errors)
+    // 7. Email (non-blocking)
     try {
-      const subject = `🦋 Your Bluesky Digest - ${new Date().toLocaleDateString()}`;
-      await emailSender.send(
-        config.emailRecipients,
-        subject,
-        summary,
-        summary, // Plain text version
-        costReport
-      );
+      const subject = `🦋 Your Daily Digest - ${new Date().toLocaleDateString()}`;
+      await emailSender.send(config.emailRecipients, subject, summary, summary, costReport);
       console.log('\n✓ Email sent successfully');
-    } catch (emailError) {
-      console.error('\n⚠️  Email sending failed:', emailError.message);
-      console.log('Continuing with digest save...');
+    } catch (err) {
+      console.error('\n⚠️  Email sending failed:', err.message);
     }
 
-    // Save digest locally
-    await digestSaver.saveDigest(summary, metadata, costReport, filteredPosts.length);
+    // 8. Save digest
+    await digestSaver.saveDigest(summary, metadata, costReport, filtered.length);
 
-    // Save cost report
-    const reportData = {
+    // 9. Record seen URIs
+    await seenTracker.record(postsForSummary.map(p => p.uri));
+    console.log(`✓ Recorded ${postsForSummary.length} URI(s) as seen`);
+
+    // 10. Cost report
+    await fs.writeFile('cost-report.json', JSON.stringify({
       date: new Date().toISOString(),
-      postsAnalyzed: filteredPosts.length,
+      postsAnalyzed: filtered.length,
+      sourceCounts: counts,
       ...costReport,
       ...metadata,
       budgetRemaining: config.dailyCostBudget - costReport.totalCost
-    };
-
-    await fs.writeFile('cost-report.json', JSON.stringify(reportData, null, 2));
-    console.log('\n✓ Cost report saved');
+    }, null, 2));
 
     console.log('\n✅ Digest completed successfully!');
-
-  } catch (error) {
-    console.error('\n❌ Error:', error.message);
-    throw error;
+  } catch (err) {
+    console.error('\n❌ Error:', err.message);
+    throw err;
   }
 }
 
-// Run the main function
-main().catch(error => {
-  console.error('Fatal error:', error);
+main().catch(err => {
+  console.error('Fatal error:', err);
   process.exit(1);
 });

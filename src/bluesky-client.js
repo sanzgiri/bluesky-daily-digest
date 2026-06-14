@@ -20,36 +20,67 @@ export class BlueskySkyClient {
     }
   }
 
+  // Hydrate a raw bsky post object into our normalized shape, with derived
+  // recency + velocity metrics so we can prefer FRESH posts over stale-but-popular ones.
+  _hydratePost(post) {
+    const likes = post.likeCount || 0;
+    const replies = post.replyCount || 0;
+    const reposts = post.repostCount || 0;
+    const quotes = post.quoteCount || 0;
+    const createdAt = post.record?.createdAt || new Date().toISOString();
+
+    const ageMs = Date.now() - new Date(createdAt).getTime();
+    const ageHours = Math.max(ageMs / 36e5, 0.25); // floor at 15min to avoid div-by-zero spikes
+
+    const rawEngagement =
+      likes + replies * 2 + reposts * 1.5 + quotes * 2;
+
+    // Velocity = engagement per hour. Rewards fresh posts that are heating up,
+    // so a 2h-old post with 5 likes beats a 3-day-old post with 12.
+    const velocity = rawEngagement / ageHours;
+
+    return {
+      uri: post.uri,
+      cid: post.cid,
+      author: post.author.handle,
+      authorDisplayName: post.author.displayName || post.author.handle,
+      text: post.record.text,
+      createdAt,
+      ageHours,
+      likes,
+      replies,
+      reposts,
+      quotes,
+      engagement: rawEngagement,
+      velocity
+    };
+  }
+
   async getPostsFromAccounts(accounts, config) {
     const allPosts = [];
-    
+    const maxAgeHours = config.maxAgeHours ?? 24;
+    const perAccountLimit = config.maxPostsPerAccount || 10;
+    // Fetch more from the feed than we'll keep — we need a wider net before
+    // applying the recency cutoff, otherwise low-frequency posters drag in
+    // ancient posts as their "last 2".
+    const fetchLimit = Math.max(perAccountLimit * 5, 15);
+
     for (const account of accounts) {
       try {
         console.log(`Fetching posts from ${account}...`);
-        
+
         const response = await this.agent.app.bsky.feed.getAuthorFeed({
           actor: account,
-          limit: config.maxPostsPerAccount || 10
+          limit: fetchLimit,
+          filter: 'posts_no_replies' // skip reply noise from author feeds
         });
 
-        const postsWithEngagement = response.data.feed.map(item => ({
-          uri: item.post.uri,
-          cid: item.post.cid,
-          author: item.post.author.handle,
-          authorDisplayName: item.post.author.displayName || item.post.author.handle,
-          text: item.post.record.text,
-          createdAt: item.post.record.createdAt,
-          likes: item.post.likeCount || 0,
-          replies: item.post.replyCount || 0,
-          reposts: item.post.repostCount || 0,
-          quotes: item.post.quoteCount || 0,
-          engagement: (item.post.likeCount || 0) + 
-                     (item.post.replyCount || 0) * 2 + 
-                     (item.post.repostCount || 0) * 1.5 +
-                     (item.post.quoteCount || 0) * 2
-        }));
+        const recent = response.data.feed
+          .map(item => this._hydratePost(item.post))
+          .filter(p => p.ageHours <= maxAgeHours)
+          .slice(0, perAccountLimit);
 
-        allPosts.push(...postsWithEngagement);
+        allPosts.push(...recent);
       } catch (error) {
         console.error(`✗ Failed to fetch posts from ${account}:`, error.message);
       }
@@ -71,61 +102,98 @@ export class BlueskySkyClient {
   async searchPosts(query, config) {
     try {
       console.log(`Searching for: ${query}...`);
-      
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      
+
+      const maxAgeHours = config.maxAgeHours ?? 24;
+      const since = new Date(Date.now() - maxAgeHours * 36e5);
+
       const response = await this.agent.app.bsky.feed.searchPosts({
         q: query,
         limit: 25,
-        sort: 'latest',
-        since: yesterday.toISOString()
+        sort: 'top', // 'top' biases toward already-engaging posts; we filter recency below
+        since: since.toISOString()
       });
 
-      return response.data.posts.map(post => ({
-        uri: post.uri,
-        cid: post.cid,
-        author: post.author.handle,
-        authorDisplayName: post.author.displayName || post.author.handle,
-        text: post.record.text,
-        createdAt: post.record.createdAt,
-        likes: post.likeCount || 0,
-        replies: post.replyCount || 0,
-        reposts: post.repostCount || 0,
-        quotes: post.quoteCount || 0,
-        engagement: (post.likeCount || 0) + 
-                   (post.replyCount || 0) * 2 + 
-                   (post.repostCount || 0) * 1.5 +
-                   (post.quoteCount || 0) * 2
-      }));
+      return response.data.posts
+        .map(post => this._hydratePost(post))
+        .filter(p => p.ageHours <= maxAgeHours);
     } catch (error) {
       console.error(`✗ Search failed for "${query}":`, error.message);
       return [];
     }
   }
 
+  // Filter + rank with two improvements over the old version:
+  //  1. Velocity-aware threshold: a fresh post with proportionally high
+  //     engagement passes even if absolute counts are still low.
+  //  2. Per-author cap: prevents a single prolific account from dominating
+  //     the digest (was a major monotony issue).
   filterPosts(posts, criteria) {
-    return posts.filter(post => 
-      post.likes >= (criteria.minLikes || 0) &&
-      post.replies >= (criteria.minReplies || 0) &&
-      post.reposts >= (criteria.minReposts || 0)
-    ).sort((a, b) => {
-      if (criteria.sortBy === 'engagement') {
-        return b.engagement - a.engagement;
+    const minLikes = criteria.minLikes ?? 0;
+    const minReplies = criteria.minReplies ?? 0;
+    const minReposts = criteria.minReposts ?? 0;
+    const minVelocity = criteria.minVelocity ?? 0; // engagement points per hour
+    const maxPerAuthor = criteria.maxPostsPerAuthor ?? 2;
+
+    const passes = (p) => {
+      const absoluteOk =
+        p.likes >= minLikes &&
+        p.replies >= minReplies &&
+        p.reposts >= minReposts;
+      // Velocity escape hatch: lets brand-new posts in before they've had
+      // time to rack up absolute counts.
+      const velocityOk = minVelocity > 0 && p.velocity >= minVelocity;
+      return absoluteOk || velocityOk;
+    };
+
+    const sorted = posts.filter(passes).sort((a, b) => {
+      if (criteria.sortBy === 'recent') {
+        return new Date(b.createdAt) - new Date(a.createdAt);
       }
-      return new Date(b.createdAt) - new Date(a.createdAt);
+      if (criteria.sortBy === 'velocity') {
+        return b.velocity - a.velocity;
+      }
+      // Default: hybrid score that rewards both raw engagement AND freshness.
+      // A 6h-old post with 30 engagement beats a 48h-old post with 30 engagement.
+      const scoreA = a.engagement + a.velocity * 3;
+      const scoreB = b.engagement + b.velocity * 3;
+      return scoreB - scoreA;
     });
+
+    // Enforce per-author diversity.
+    const authorCounts = new Map();
+    const diverse = [];
+    for (const post of sorted) {
+      const n = authorCounts.get(post.author) || 0;
+      if (n < maxPerAuthor) {
+        diverse.push(post);
+        authorCounts.set(post.author, n + 1);
+      }
+    }
+    return diverse;
   }
 
-  async getTopReplies(posts, limit = 3) {
+  // Remove posts whose URIs appear in `seenUris` (a Set). Used to prevent
+  // the same post from being featured in multiple consecutive digests.
+  excludeSeenPosts(posts, seenUris) {
+    if (!seenUris || seenUris.size === 0) return posts;
+    const before = posts.length;
+    const filtered = posts.filter(p => !seenUris.has(p.uri));
+    const removed = before - filtered.length;
+    if (removed > 0) {
+      console.log(`  Excluded ${removed} previously-digested post(s)`);
+    }
+    return filtered;
+  }
+
+  async getTopReplies(posts, limit = 3, maxPostsToProcess = 25) {
     const postsWithReplies = [];
 
-    for (const post of posts.slice(0, 10)) { // Limit API calls
+    for (const post of posts.slice(0, maxPostsToProcess)) {
       if (post.replies > 0) {
         try {
           const thread = await this.getPostThread(post.uri);
-          
-          if (thread.replies && thread.replies.length > 0) {
+
+          if (thread?.replies && thread.replies.length > 0) {
             const topReplies = thread.replies
               .filter(r => r.post)
               .map(r => ({
@@ -137,14 +205,16 @@ export class BlueskySkyClient {
               .sort((a, b) => b.engagement - a.engagement)
               .slice(0, limit);
 
-            postsWithReplies.push({
-              ...post,
-              topReplies
-            });
+            postsWithReplies.push({ ...post, topReplies });
+          } else {
+            postsWithReplies.push(post);
           }
         } catch (error) {
           console.error(`✗ Failed to get replies for post:`, error.message);
+          postsWithReplies.push(post);
         }
+      } else {
+        postsWithReplies.push(post);
       }
     }
 

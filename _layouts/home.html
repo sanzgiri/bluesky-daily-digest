@@ -1,0 +1,46 @@
+---
+layout: default
+---
+<section class="hero">
+  <h1>The Daily Digest</h1>
+  <p class="lead">
+    Every morning, <strong>Claude Haiku</strong> reads 100+ posts across Bluesky, Mastodon, Reddit, Hacker News, and curated blogs — and weaves the day's signal into a 5-minute read.
+  </p>
+</section>
+
+{% if site.posts.size > 0 %}
+  {% assign latest = site.posts | first %}
+  <section class="latest">
+    <a href="{{ latest.url | relative_url }}" class="latest-card">
+      <span class="latest-label">Latest digest</span>
+      <h2>{{ latest.title }}</h2>
+      <time>{{ latest.date | date: "%A, %B %-d, %Y" }}</time>
+    </a>
+  </section>
+
+  <section class="archive">
+    <h2 class="archive-title">Archive</h2>
+    <ul class="post-list">
+      {% for post in paginator.posts offset:1 %}
+        <li>
+          <time>{{ post.date | date: "%b %-d, %Y" }}</time>
+          <a href="{{ post.url | relative_url }}">{{ post.title | replace: "Daily Digest — ", "" }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% if paginator.total_pages > 1 %}
+      <nav class="pagination">
+        {% if paginator.previous_page %}
+          <a href="{{ paginator.previous_page_path | relative_url }}">← Newer</a>
+        {% endif %}
+        <span class="muted">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+        {% if paginator.next_page %}
+          <a href="{{ paginator.next_page_path | relative_url }}">Older →</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  </section>
+{% else %}
+  <p>No digests yet. Check back tomorrow!</p>
+{% endif %}

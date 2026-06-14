@@ -1,9 +1,49 @@
-title: Bluesky Daily Digest
-description: AI-powered daily summaries of Bluesky posts
-theme: minima
-baseurl: "/bluesky-daily-digest"
-url: "https://sanzgiri.github.io"
+# Site identity
+title: Daily Digest
+description: AI-curated daily summaries from Bluesky, Mastodon, Hacker News, Reddit, and curated blogs — by Claude Haiku.
+author: sanzgiri
+lang: en-US
 
+# URLs
+url: "https://sanzgiri.github.io"
+baseurl: "/bluesky-daily-digest"
+
+# Build
+markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/
+timezone: America/Los_Angeles
+
+# Pagination
+paginate: 14
+paginate_path: "/page:num/"
+
+# Plugins (whitelist for GH Pages)
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-paginate
+  - jekyll-sitemap
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+# Feed configuration
+feed:
+  posts_limit: 30
+  excerpt_only: false
+
+# SEO
+twitter:
+  username: bluesky
+  card: summary_large_image
+
+# Exclude from build
 exclude:
   - README.md
   - CHECKLIST.md
@@ -11,6 +51,8 @@ exclude:
   - LOCAL_TESTING.md
   - QUICKSTART.md
   - LICENSE
+  - Gemfile
+  - Gemfile.lock
   - package.json
   - package-lock.json
   - node_modules
@@ -22,4 +64,8 @@ exclude:
   - last-run.log
   - setup.sh
   - test.sh
+  - compare-cloud-vs-local.js
+  - dry-run-multisource.js
+  - sample-output.js
   - "*.example"
+  - vendor

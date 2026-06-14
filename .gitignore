@@ -5,3 +5,25 @@ node_modules/
 cost-report.json
 .DS_Store
 package-lock.json
+
+# Local test scripts (development scratch, not part of pipeline)
+compare-cloud-vs-local.js
+dry-run-multisource.js
+final-test.js
+sample-output.js
+
+# Local-only digest outputs from test scripts
+digests/COMPARISON-*.md
+digests/DRY-RUN-*.md
+digests/SAMPLE-*.md
+digests/FINAL-TEST*.md
+
+# Runtime state — should NEVER be committed (resets dedup memory)
+digests/.seen-posts.json
+
+# Jekyll build artifacts
+_site/
+.jekyll-cache/
+.bundle/
+vendor/
+

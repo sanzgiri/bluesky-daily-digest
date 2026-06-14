@@ -9,11 +9,11 @@
     "test": "node --test"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.1",
     "@atproto/api": "^0.13.20",
     "@sendgrid/mail": "^8.1.4",
     "openai": "^4.77.3"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=20.0.0"
   },
