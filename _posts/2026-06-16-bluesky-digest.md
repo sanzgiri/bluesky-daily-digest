@@ -1,0 +1,59 @@
+---
+layout: post
+title: "Daily Digest — 2026-06-16"
+date: 2026-06-16
+---
+
+
+**Tuesday, June 16, 2026**
+
+---
+
+### **Game Studios Are Hemorrhaging People, and Nobody's Pretending It's About Games Anymore**
+
+Rami Ismail just laid out the industry's actual operating principle in a single brutal thread: layoffs happen regardless of whether a game succeeds, fails, ships late, or gets announced [— @ramiismail.com](https://bsky.app/profile/ramiismail.com/post/3moejzm64y22s). The punchline is that money doesn't care about *games*—it cares about extracting value and cutting costs. This isn't new, but watching it stated so plainly, with the admission that "money cares more for layoffs than games," is the kind of clarity that usually only comes after people have already been fired. One reply nailed the secondary grift: these same executives will later write hagiography books about their "leadership" [— @ichamza.bsky.social](https://bsky.app/profile/ichamza.bsky.social/post/3moejzm64y22s).
+
+### **🌐 AI Search Is Broken and Hilariously Easy to Poison**
+
+Researchers quantified what everyone's suspected: just 13 words buried in a Reddit comment can corrupt AI search results [— @jasonkoebler.bsky.social](https://bsky.app/profile/jasonkoebler.bsky.social/post/3modiif5i2c2q). The attack is so dumb it barely qualifies as an attack—simply making content that resembles a search query is enough to get cited. Google's already doubling down on AI Overviews despite the fact that they're now legally liable in Germany for false statements their model generates [— @moreperfectunion.bsky.social](https://bsky.app/profile/moreperfectunion.bsky.social/post/3modipe4gfs2w). So we have a system that's trivial to manipulate, produces false information at scale, and the company running it is *accelerating* its rollout anyway. Jasonkoebler's source quoted a researcher saying the attack surface is "so much dumber than you think it is"—which is perhaps the most honest assessment of AI's security posture we've gotten all year.
+
+*   "Simply making content that is very similar to expected search inquiry is enough to get cited." [— @jasonkoebler.bsky.social](https://bsky.app/profile/jasonkoebler.bsky.social/post/3modiif5i2c2q)
+
+### **Steam Next Fest Has Become a Depressing AI Disclosure Gauntlet**
+
+Browse Steam's indie showcase with an AI-detection extension and you'll watch game after game get flagged, then ignored [— @kotaku.com](https://bsky.app/profile/kotaku.com/post/3modymhrniq2r). The ecosystem has split: devs are installing extensions to *advertise* they didn't use AI [— @mattcaulder.com](https://bsky.app/profile/mattcaulder.com/post/3modspmcmsc2f), while players are installing extensions to *filter out* games that did. Steam has an official AI disclosure section but won't let you filter by it—a choice so transparently designed to obscure the scale of the problem that it barely deserves comment. The tension: some people argue small teams *need* AI tools to ship anything on a shoestring budget, but that argument keeps losing to the fact that when players see "Generative AI Disclosure," they just move on [— @elouyn.me](https://bsky.app/profile/elouyn.me/post/3moefjx3prc24).
+
+*   "Indie devs PLEASE feel encouraged to drop your #NextFest games that don't use AI!" [— @mattcaulder.com](https://bsky.app/profile/mattcaulder.com/post/3modspmcmsc2f)
+*   "'ai was used as a place holder' literally makes me vomit." [— @comradebushwic.bsky.social](https://bsky.app/profile/comradebushwic.bsky.social/post/3moefjx3prc24)
+
+### **The AI Replacement Cope Is Exactly Backwards**
+
+Everyone assumes their own field can't be replaced by AI, but fields they don't understand? Those are definitely toast [— @mors.games](https://bsky.app/profile/mors.games/post/3modz4d5ehk26). The pattern is predictable: "AI can't write good stories, but it's useful for concept art." "AI can't write maintainable code, but it's fine for translations." Each person draws the line just below their own expertise and above everyone else's. The replies suggest this is just Dunning-Kruger with a generative model attached—people can only see the finished product in fields they don't work in, so of course it looks simple [— @virtualknights.bsky.social](https://bsky.app/profile/virtualknights.bsky.social/post/3modz4d5ehk26). One programmer admitted they've basically stopped writing code and now mostly debugs AI output, which is either the future or a confession that we've already lost the plot [— @tastromo.bsky.social](https://bsky.app/profile/tastromo.bsky.social/post/3modz4d5ehk26).
+
+### **Billionaires Funded AI's Apocalypse, Now They're Funding Genetically Engineered Genius Babies to Stop It**
+
+Mother Jones investigated the circular logic of AI's biggest backers: they've publicly admitted the technology could kill everyone, so their solution is to fund the development of smarter humans via genetic engineering [— @motherjones.com](https://bsky.app/profile/motherjones.com/post/3moeecw3bhs26). The replies immediately caught the Jeffrey Epstein energy—billionaires deciding they need to breed a superior class to manage existential risk is not the flex they think it is. This is what happens when you have enough money to believe your own mythology: you've already funded the problem, so you might as well fund the solution, and if that solution involves eugenics, well, you've got the budget for it.
+
+*   "I'm getting the Jeffrey Epstein/Zorro Ranch heebie-jeebies right now." [— @trixie57.bsky.social](https://bsky.app/profile/trixie57.bsky.social/post/3moeecw3bhs26)
+
+### **The Only Real Metric for AI's Success Is How Fast People Abandon It When They See It Used**
+
+Robert Evans asked the obvious question: if AI generates such visceral rejection every time it's announced in a game or movie, isn't that a sign the technology is fundamentally broken [— @iwriteok.bsky.social](https://bsky.app/profile/iwriteok.bsky.social/post/3moejaaqxac2d)? The replies treat this as engagement—"pitchforks and torches aren't audience engagement"—but the deeper point is that AI has become a *liability* the moment you mention it. Companies are paying for tools that make their products worse the moment they admit they used them. That's not a feature. That's a business model held together by deception.
+
+The industry keeps insisting AI is inevitable while simultaneously discovering that telling people you used it is commercial suicide.
+
+---
+
+## 📊 Summary Statistics
+
+- **Posts Analyzed:** 163
+- **AI Model:** claude-haiku-4-5
+- **Tokens Used:** 6,373 input, 1,748 output
+- **Generation Cost:** $0.0151
+- **Total Session Cost:** $0.0151
+- **Budget Remaining:** $0.4849
+
+
+---
+
+*Generated by Bluesky Daily Digest v2 on 2026-06-16T12:54:17.762Z*
