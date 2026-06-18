@@ -4,6 +4,7 @@ import { MastodonClient } from './mastodon-client.js';
 import { HackerNewsClient } from './hackernews-client.js';
 import { RSSClient } from './rss-client.js';
 import { RedditClient } from './reddit-client.js';
+import { GitHubTrendingClient } from './github-client.js';
 import { Summarizer } from './summarizer.js';
 import { EmailSender } from './email-sender.js';
 import { DigestSaver } from './digest-saver.js';
@@ -64,7 +65,8 @@ async function gatherFromAllSources(config) {
     const m = new MastodonClient({ homeInstance: sources.mastodon.homeInstance });
     const mastoConfig = {
       maxAgeHours: config.maxAgeHours,
-      maxPostsPerAccount: sources.mastodon.maxPostsPerAccount || 3
+      maxPostsPerAccount: sources.mastodon.maxPostsPerAccount || 3,
+      maxPostsPerHashtag: sources.mastodon.maxPostsPerHashtag || 8
     };
     const mastoPosts = await m.getPostsFromAccounts(sources.mastodon.accounts || [], mastoConfig);
     for (const tag of sources.mastodon.hashtags || []) {
@@ -91,6 +93,24 @@ async function gatherFromAllSources(config) {
         limit: 10
       });
       stories.push(...matches);
+    }
+    // Show HN — developer-built projects, high signal
+    if (sources.hackernews.includeShowHN) {
+      const show = await hn.getShowHN({
+        hours: (config.maxAgeHours ?? 24) * 2,
+        minPoints: sources.hackernews.showHNMinPoints ?? 30,
+        limit: sources.hackernews.showHNLimit ?? 10
+      });
+      stories.push(...show);
+    }
+    // Ask HN — community discussions
+    if (sources.hackernews.includeAskHN) {
+      const ask = await hn.getAskHN({
+        hours: (config.maxAgeHours ?? 24) * 2,
+        minPoints: sources.hackernews.askHNMinPoints ?? 30,
+        limit: sources.hackernews.askHNLimit ?? 5
+      });
+      stories.push(...ask);
     }
     counts.hackernews = stories.length;
     allPosts.push(...stories);
@@ -136,6 +156,24 @@ async function gatherFromAllSources(config) {
     } else {
       console.log('  (REDDIT_* env vars not set, skipping)');
       counts.reddit = 0;
+    }
+  }
+
+  // -------- GitHub Trending --------
+  if (sources.github?.enabled) {
+    console.log('\n── GitHub Trending ──');
+    const gh = new GitHubTrendingClient();
+    try {
+      const trending = await gh.getMultiLanguageTrending({
+        languages: sources.github.languages || [''],
+        since: sources.github.since || 'daily',
+        perLanguage: sources.github.perLanguage ?? 5
+      });
+      counts.github = trending.length;
+      allPosts.push(...trending);
+    } catch (err) {
+      console.error(`✗ GitHub Trending failed: ${err.message}`);
+      counts.github = 0;
     }
   }
 
@@ -247,13 +285,17 @@ async function main() {
       console.error('⚠️  Daily cost budget exceeded!');
     }
 
-    // 7. Email (non-blocking)
-    try {
-      const subject = `🦋 Your Daily Digest - ${new Date().toLocaleDateString()}`;
-      await emailSender.send(config.emailRecipients, subject, summary, summary, costReport);
-      console.log('\n✓ Email sent successfully');
-    } catch (err) {
-      console.error('\n⚠️  Email sending failed:', err.message);
+    // 7. Email (optional, non-blocking) — only attempts if config.email.enabled is true
+    if (config.email?.enabled && config.emailRecipients?.length && process.env.SENDGRID_API_KEY) {
+      try {
+        const subject = `🦋 Your Daily Digest - ${new Date().toLocaleDateString()}`;
+        await emailSender.send(config.emailRecipients, subject, summary, summary, costReport);
+        console.log('\n✓ Email sent successfully');
+      } catch (err) {
+        console.error('\n⚠️  Email sending failed:', err.message);
+      }
+    } else {
+      console.log('\nℹ️  Email disabled (set config.email.enabled=true to send)');
     }
 
     // 8. Save digest

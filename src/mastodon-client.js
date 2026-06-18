@@ -110,13 +110,15 @@ export class MastodonClient {
   // Hashtag timeline — also fully public.
   async searchHashtag(tag, config) {
     const maxAgeHours = config.maxAgeHours ?? 24;
+    const perHashtagLimit = config.maxPostsPerHashtag ?? 8;
     try {
       const statuses = await this._json(
         `${this.home}/api/v1/timelines/tag/${encodeURIComponent(tag)}?limit=30`
       );
       return statuses
         .map(s => this._hydrateStatus(s, s.account?.acct || 'unknown'))
-        .filter(p => p.text && p.ageHours <= maxAgeHours);
+        .filter(p => p.text && p.ageHours <= maxAgeHours)
+        .slice(0, perHashtagLimit);
     } catch (err) {
       console.error(`  ✗ [mastodon] #${tag}: ${err.message}`);
       return [];

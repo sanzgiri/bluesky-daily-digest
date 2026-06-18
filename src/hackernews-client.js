@@ -83,4 +83,45 @@ export class HackerNewsClient {
       return [];
     }
   }
+
+  /**
+   * Get Show HN stories (developers showcasing their projects).
+   * High signal-to-noise — these are real built things, not just news.
+   * Algolia tag: 'show_hn'
+   */
+  async getShowHN({ hours = 48, minPoints = 30, limit = 15 } = {}) {
+    const since = Math.floor((Date.now() - hours * 36e5) / 1000);
+    const url =
+      `${this.base}/search_by_date?tags=show_hn` +
+      `&numericFilters=created_at_i>${since},points>${minPoints}` +
+      `&hitsPerPage=${limit}`;
+    try {
+      console.log(`  [hn] Show HN (last ${hours}h, ≥${minPoints} pts)...`);
+      const data = await this._json(url);
+      return (data.hits || []).map(h => this._hydrateHit(h));
+    } catch (err) {
+      console.error(`  ✗ [hn] getShowHN: ${err.message}`);
+      return [];
+    }
+  }
+
+  /**
+   * Get Ask HN posts (community discussion threads).
+   * Lower volume, higher conversation depth than top stories.
+   */
+  async getAskHN({ hours = 48, minPoints = 30, limit = 10 } = {}) {
+    const since = Math.floor((Date.now() - hours * 36e5) / 1000);
+    const url =
+      `${this.base}/search_by_date?tags=ask_hn` +
+      `&numericFilters=created_at_i>${since},points>${minPoints}` +
+      `&hitsPerPage=${limit}`;
+    try {
+      console.log(`  [hn] Ask HN (last ${hours}h, ≥${minPoints} pts)...`);
+      const data = await this._json(url);
+      return (data.hits || []).map(h => this._hydrateHit(h));
+    } catch (err) {
+      console.error(`  ✗ [hn] getAskHN: ${err.message}`);
+      return [];
+    }
+  }
 }

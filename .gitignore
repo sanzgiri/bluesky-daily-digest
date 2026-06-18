@@ -11,6 +11,7 @@ compare-cloud-vs-local.js
 dry-run-multisource.js
 final-test.js
 sample-output.js
+test-judge.js
 
 # Local-only digest outputs from test scripts
 digests/COMPARISON-*.md

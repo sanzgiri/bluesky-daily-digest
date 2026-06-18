@@ -122,23 +122,50 @@ export class BlueskySkyClient {
     }
   }
 
-  // Filter + rank with two improvements over the old version:
+  // Filter + rank with three improvements over the old version:
   //  1. Velocity-aware threshold: a fresh post with proportionally high
   //     engagement passes even if absolute counts are still low.
   //  2. Per-author cap: prevents a single prolific account from dominating
   //     the digest (was a major monotony issue).
+  //  3. Source-aware thresholds: a 5-likes Mastodon post is comparable to a
+  //     30-likes Bluesky post. Without per-source thresholds, Mastodon/RSS
+  //     get filtered out before they reach the LLM.
+  //
+  //     SOURCE_THRESHOLDS overrides the criteria object for specific sources.
+  //     RSS posts have NO engagement signal and pass via velocity only.
   filterPosts(posts, criteria) {
-    const minLikes = criteria.minLikes ?? 0;
-    const minReplies = criteria.minReplies ?? 0;
-    const minReposts = criteria.minReposts ?? 0;
+    const DEFAULT = {
+      minLikes: criteria.minLikes ?? 0,
+      minReplies: criteria.minReplies ?? 0,
+      minReposts: criteria.minReposts ?? 0
+    };
+    // Per-source overrides. Each source has its own engagement "currency":
+    //   - Bluesky:   1 like ≈ 1 like (baseline)
+    //   - Mastodon:  1 boost ≈ 6 Bluesky likes (much smaller user base)
+    //   - HN:        1 point ≈ 5-10 Bluesky likes (front-page = 100+ pts)
+    //   - Reddit:    1 upvote ≈ 2 Bluesky likes
+    //   - RSS:       no signal — always pass, ride velocity
+    //   - GitHub:    stars/forks not directly comparable — always pass
+    //   - arXiv:     no signal — always pass
+    const SOURCE_THRESHOLDS = {
+      bluesky:    { minLikes: DEFAULT.minLikes, minReplies: DEFAULT.minReplies, minReposts: DEFAULT.minReposts },
+      mastodon:   { minLikes: 2, minReplies: 0, minReposts: 0 },
+      hackernews: { minLikes: 50, minReplies: 0, minReposts: 0 },
+      reddit:     { minLikes: 20, minReplies: 2, minReposts: 0 },
+      rss:        { minLikes: 0, minReplies: 0, minReposts: 0 },
+      github:     { minLikes: 0, minReplies: 0, minReposts: 0 },
+      arxiv:      { minLikes: 0, minReplies: 0, minReposts: 0 }
+    };
+
     const minVelocity = criteria.minVelocity ?? 0; // engagement points per hour
     const maxPerAuthor = criteria.maxPostsPerAuthor ?? 2;
 
     const passes = (p) => {
+      const t = SOURCE_THRESHOLDS[p.source] || DEFAULT;
       const absoluteOk =
-        p.likes >= minLikes &&
-        p.replies >= minReplies &&
-        p.reposts >= minReposts;
+        p.likes >= t.minLikes &&
+        p.replies >= t.minReplies &&
+        p.reposts >= t.minReposts;
       // Velocity escape hatch: lets brand-new posts in before they've had
       // time to rack up absolute counts.
       const velocityOk = minVelocity > 0 && p.velocity >= minVelocity;

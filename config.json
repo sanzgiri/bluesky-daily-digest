@@ -176,10 +176,14 @@
   "emailRecipients": [
     "sanzgiri@gmail.com"
   ],
+  "email": {
+    "enabled": false,
+    "_comment": "SendGrid is exhausted. Subscribe to the RSS feed instead: https://sanzgiri.github.io/bluesky-daily-digest/feed.xml"
+  },
   "dailyCostBudget": 0.50,
   "maxAgeHours": 24,
   "seenWindowDays": 14,
-  "topK": 15,
+  "topK": 18,
   "useFewShot": true,
   "preferredProvider": "anthropic",
   "sources": {
@@ -199,24 +203,42 @@
         "davatron5000@front-end.social",
         "andypiper@macaw.social"
       ],
-      "hashtags": ["machinelearning", "ai", "opensource"],
-      "maxPostsPerAccount": 3
+      "hashtags": ["machinelearning", "ai", "opensource", "fediverse", "rustlang", "python"],
+      "maxPostsPerAccount": 5,
+      "maxPostsPerHashtag": 6
     },
     "hackernews": {
       "enabled": true,
       "minPoints": 100,
-      "limit": 20,
-      "keywords": ["AI", "LLM", "machine learning"]
+      "limit": 40,
+      "keywords": ["AI", "LLM", "machine learning"],
+      "includeShowHN": true,
+      "showHNMinPoints": 30,
+      "showHNLimit": 10,
+      "includeAskHN": true,
+      "askHNMinPoints": 30,
+      "askHNLimit": 5
     },
     "rss": {
       "enabled": true,
-      "maxPostsPerFeed": 2,
+      "maxPostsPerFeed": 4,
       "feeds": [
         { "name": "Simon Willison", "handle": "simonw", "url": "https://simonwillison.net/atom/everything/" },
         { "name": "Stratechery (free)", "handle": "stratechery", "url": "https://stratechery.com/feed/" },
         { "name": "One Useful Thing (Ethan Mollick)", "handle": "emollick", "url": "https://www.oneusefulthing.org/feed" },
         { "name": "Latent Space", "handle": "swyx", "url": "https://www.latent.space/feed" },
-        { "name": "Interconnects (Nathan Lambert)", "handle": "natolambert", "url": "https://www.interconnects.ai/feed" }
+        { "name": "Interconnects (Nathan Lambert)", "handle": "natolambert", "url": "https://www.interconnects.ai/feed" },
+        { "name": "Astral Codex Ten (Scott Alexander)", "handle": "slatestarcodex", "url": "https://www.astralcodexten.com/feed" },
+        { "name": "Marginal Revolution (Tyler Cowen)", "handle": "tylercowen", "url": "https://marginalrevolution.com/feed" },
+        { "name": "Ben Thompson / Stratechery Sharp Tech", "handle": "stratechery", "url": "https://stratechery.com/category/articles/feed/" },
+        { "name": "Lobsters", "handle": "lobsters", "url": "https://lobste.rs/rss" },
+        { "name": "arXiv cs.LG (Machine Learning)", "handle": "arxiv-cs-lg", "url": "https://export.arxiv.org/rss/cs.LG" },
+        { "name": "arXiv cs.AI (Artificial Intelligence)", "handle": "arxiv-cs-ai", "url": "https://export.arxiv.org/rss/cs.AI" },
+        { "name": "arXiv cs.CL (Computation and Language)", "handle": "arxiv-cs-cl", "url": "https://export.arxiv.org/rss/cs.CL" },
+        { "name": "YouTube: Lex Fridman Podcast", "handle": "lexfridman", "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCSHZKyawb77ixDdsGog4iWA" },
+        { "name": "YouTube: Two Minute Papers", "handle": "twominutepapers", "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg" },
+        { "name": "YouTube: 3Blue1Brown", "handle": "3blue1brown", "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw" },
+        { "name": "YouTube: Computerphile", "handle": "computerphile", "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC9-y-6csu5WGm29I7JiwpnA" }
       ]
     },
     "reddit": {
@@ -232,9 +254,16 @@
         "selfhosted"
       ],
       "defaultMinScore": 50,
-      "defaultLimit": 8,
+      "defaultLimit": 15,
       "minUpvoteRatio": 0.85,
       "enrichComments": 8
+    },
+    "github": {
+      "enabled": true,
+      "since": "daily",
+      "perLanguage": 5,
+      "_comment": "Empty string means 'all languages'; add specific slugs for diversity",
+      "languages": ["", "python", "typescript", "rust", "go"]
     }
   },
   "filterCriteria": {
@@ -242,7 +271,7 @@
     "minReplies": 1,
     "minReposts": 1,
     "minVelocity": 3,
-    "maxPostsPerAuthor": 2,
+    "maxPostsPerAuthor": 3,
     "sortBy": "hybrid"
   },
   "searchKeywords": [
